@@ -1,0 +1,52 @@
+﻿// http://api.zhuishushenqi.com/toc?view=summary&book=54914a84338fe64c65fb0030
+
+[
+  {
+    "_id": "54914a84338fe64c65fb0035",
+    "lastChapter": "双阙",
+    "link": "http://book.kanunu.org/files/yqxs/201103/2233.html",
+    "source": "kanunu",
+    "name": "努努书坊",
+    "isCharge": false,
+    "chaptersCount": 120,
+    "updated": "2014-12-17T09:19:00.833Z",
+    "starting": true,
+    "host": "book.kanunu.org"
+  },
+  {
+    "_id": "58130da1860cce710a0f9a14",
+    "lastChapter": "双阙",
+    "link": "http://book.my716.com/getBooks.aspx?method=chapterList&bookId=602805",
+    "source": "my176",
+    "name": "176小说",
+    "isCharge": false,
+    "chaptersCount": 120,
+    "updated": "2016-10-28T08:34:41.908Z",
+    "starting": false,
+    "host": "book.my716.com"
+  },
+  {
+    "_id": "55decfaf007d4d8623de652f",
+    "lastChapter": "双阙",
+    "link": "http://api.easou.com/api/bookapp/chapter_list.m?gid=7166871&nid=7166871&size=10000&cid=eef_easou_book&version=002&os=android&appverion=1011",
+    "source": "aeasou",
+    "name": "宜搜小说",
+    "isCharge": false,
+    "chaptersCount": 142,
+    "updated": "2015-08-27T08:51:59.663Z",
+    "starting": false,
+    "host": "api.easou.com"
+  },
+  {
+    "_id": "549151cb9e511a894b5e3fa7",
+    "lastChapter": "双阙",
+    "link": "http://www.qingkan.net/book/shuangque_wanjieban_/",
+    "source": "qingkan",
+    "name": "请看小说网",
+    "isCharge": false,
+    "chaptersCount": 120,
+    "updated": "2014-12-17T09:50:03.287Z",
+    "starting": false,
+    "host": "qingkan.net"
+  }
+]

@@ -1,0 +1,92 @@
+﻿
+// http://api.zhuishushenqi.com/book/fuzzy-search?query=%22%E5%8F%8C%E9%98%99%22&start=0&limit=5
+
+{
+  "books": [
+    {
+      "_id": "54914a84338fe64c65fb0030",
+      "hasCp": false,
+      "title": "双阙（完结版）",
+      "cat": "其它",
+      "author": "海青拿天鹅",
+      "site": "kanunu",
+      "cover": "",
+      "shortIntro": "西周，诗歌与传说的时代。他持弓而立，在缤纷落英中向我走来；他浅浅莞尔，笑容如月华般似曾相识；想变得幸福，心却在摇摆，就像灰姑娘的舞鞋，明明非常合脚，12点时转身...",
+      "lastChapter": "双阙",
+      "retentionRatio": 0,
+      "latelyFollower": 174,
+      "wordCount": -1
+    },
+    {
+      "_id": "584e92c5c0c39d0e5460cd23",
+      "hasCp": false,
+      "title": "亲睐有加",
+      "cat": "现代言情",
+      "author": "秦双阙",
+      "site": "qidian",
+      "cover": "",
+      "shortIntro": "她真的不是有心招惹这么个大活人回家的，虽然莫名其妙的能够和谐相处，但这，其实是不符合常理的吧!自己对于这种年长、细心、少言的男人，果然没有抵抗力啊，真的是完美啊...",
+      "lastChapter": "第四十章 寻人",
+      "retentionRatio": 0,
+      "latelyFollower": 0,
+      "wordCount": 62892
+    },
+    {
+      "_id": "5842fc4c90a84f1f396a7e3a",
+      "hasCp": false,
+      "title": "六神劫之紫殇",
+      "cat": "现代言情",
+      "author": "紫绯双阙",
+      "site": "xxsy",
+      "cover": "/agent/http://images.xxsy.net/bimg/76715.jpg",
+      "shortIntro": "一个误会,三世轮回,六件神器,最终会迈向何方?",
+      "lastChapter": "湘妃滴泪，娥皇女英的传说",
+      "retentionRatio": 0,
+      "latelyFollower": 0,
+      "wordCount": 161267
+    },
+    {
+      "_id": "583ff6926db58db7597a688f",
+      "hasCp": false,
+      "title": "弗阙双生",
+      "cat": "古代言情",
+      "author": "寒崖苍鹰",
+      "site": "qidian",
+      "cover": "/agent/http://image.cmfu.com/books/3593635/3593635.jpg",
+      "shortIntro": "飞雪淡薄了云月，烟花点亮了城阙，灯火明灭，繁华后的劫； 柳絮纷飞了离别，微雨染透了决绝，烛光绰约，风波后的血； 秋枫飘摇了江迭，寒风消散了圆缺，双生未竭，缱绻后...",
+      "lastChapter": "蔓延",
+      "retentionRatio": 0,
+      "latelyFollower": 0,
+      "wordCount": 40940
+    },
+    {
+      "_id": "587d37368602d1eb03629c47",
+      "hasCp": false,
+      "title": "总裁管好你的媳妇",
+      "cat": "现代言情",
+      "author": "阙樱双子",
+      "site": "w17k",
+      "cover": "/agent/http://img.17k.com/images/bookcover/default_cover3.jpg",
+      "shortIntro": "",
+      "lastChapter": "第二章 体验生活",
+      "retentionRatio": 0,
+      "latelyFollower": 0,
+      "wordCount": 2856
+    },
+    {
+      "_id": "582cd495e965c40924191f41",
+      "hasCp": false,
+      "title": "唐家废柴变天才",
+      "cat": "玄幻",
+      "author": "阙樱双子",
+      "site": "w17k",
+      "cover": "/agent/http://img.17k.com/images/bookcover/default_cover1.jpg",
+      "shortIntro": "十岁的比赛，他受到了冷嘲热讽。他懂得了没有实力，根本无法生存。我愿意用两块中级元块换取逆子的命养父用两块价值连城的东西换取了自己的命。少主，该回家了真正的身份，...",
+      "lastChapter": "第十一章 悦语的情感",
+      "retentionRatio": 0,
+      "latelyFollower": 0,
+      "wordCount": 4992
+    }
+  ],
+  "ok": true
+}

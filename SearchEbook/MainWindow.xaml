@@ -23,6 +23,9 @@
         <Label Content="书名：" HorizontalAlignment="Left" Margin="74,143,0,0" VerticalAlignment="Top"/>
         <TextBox  Margin="129,129,485,195.8"  materialDesign:HintAssist.Hint="Floating Hint"  Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
         <Button Content="搜索" HorizontalAlignment="Left" Margin="371,136,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="donate" Background="White" Foreground="Red" BorderThickness="0" HorizontalAlignment="Left" Margin="499,136,0,0" VerticalAlignment="Top"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="690,94,0,0" VerticalAlignment="Top" Width="100"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="588,95,0,0" VerticalAlignment="Top" Width="100"/>
 
     </Grid>
 </Window>

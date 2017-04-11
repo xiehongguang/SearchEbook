@@ -80,6 +80,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\BookDetialInfo.cs" />
+    <Compile Include="Model\BookSource.cs" />
+    <Compile Include="Model\ChapterContent.cs" />
+    <Compile Include="Model\ChapterList.cs" />
+    <Compile Include="Model\MixBookSource.cs" />
+    <Compile Include="Model\MixChapterList.cs" />
+    <Compile Include="Model\SearchBook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -97,6 +104,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Json\BookDetailInfo.json" />
+    <None Include="Json\BookSource.json" />
+    <None Include="Json\ChapterContent.json" />
+    <None Include="Json\ChapterList.json" />
+    <None Include="Json\MixChapterList.json" />
+    <None Include="Json\SearchBook.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
