@@ -32,7 +32,7 @@ namespace SearchEbook.Model
         public int followerCount { get; set; }
         public int wordCount { get; set; }
         public int serializeWordCount { get; set; }
-        public int retentionRatio { get; set; }
+        public double retentionRatio { get; set; }
         public DateTime updated { get; set; }
         public bool isSerial { get; set; }
         public int chaptersCount { get; set; }
