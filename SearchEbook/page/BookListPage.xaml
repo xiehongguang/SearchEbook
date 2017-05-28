@@ -1,0 +1,36 @@
+﻿<Window x:Class="SearchEbook.page.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SearchEbook.page"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:ControlzEx="clr-namespace:ControlzEx;assembly=MaterialDesignThemes.Wpf"
+      mc:Ignorable="d"
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="bookList" Height="398.659" Width="798.171"
+         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+         TextElement.FontWeight="Regular"
+         TextElement.FontSize="13"
+         TextOptions.TextFormattingMode="Ideal"
+         TextOptions.TextRenderingMode="Auto"
+         Background="{DynamicResource MaterialDesignPaper}"
+         FontFamily="{DynamicResource MaterialDesignFont}">
+    <Grid>
+            <materialDesign:Card Padding="8" Margin="8" Foreground="SkyBlue" VerticalAlignment="Top" >
+                <TextBlock Foreground="BlueViolet" HorizontalAlignment="Center" FontSize="30"  Style="{DynamicResource MaterialDesignTitleTextBlock}" Height="42" Margin="28,0">部分书籍列表</TextBlock>
+            </materialDesign:Card>
+
+        <DataGrid x:Name="dataGrid" Background="White" Margin="5,100,5,5" IsReadOnly="True" AutoGenerateColumns="False" SelectionChanged="dataGrid_SelectionChanged"  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="书名"  Width="100" Binding="{Binding title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="作者"  Width="100" Binding="{Binding author, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="类别"  Width="100" Binding="{Binding cat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="书源"  Width="100" Binding="{Binding site, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="最新章节"  Width="100" Binding="{Binding lastChapter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="字数" Width="100" Binding="{Binding wordCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="简介"  Width="500" Binding="{Binding shortIntro, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

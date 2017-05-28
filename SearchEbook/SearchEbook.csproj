@@ -82,6 +82,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="page\BookDetial.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="page\BookListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\BookDetialInfo.cs" />
@@ -91,6 +99,12 @@
     <Compile Include="Model\MixBookSource.cs" />
     <Compile Include="Model\MixChapterList.cs" />
     <Compile Include="Model\SearchBook.cs" />
+    <Compile Include="page\BookDetial.xaml.cs">
+      <DependentUpon>BookDetial.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="page\BookListPage.xaml.cs">
+      <DependentUpon>BookListPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

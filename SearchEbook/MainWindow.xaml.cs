@@ -33,21 +33,30 @@ namespace SearchEbook
 
         private void BookListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string name = bookListBox.SelectedItem.ToString();
-            string bookid;
-            string id="0";
-            if( bookTitleAndId.TryGetValue(name,out bookid))
+            try
             {
-                id = bookid;
+                string name = bookListBox.SelectedItem.ToString();
+                string bookid;
+                string id = "0";
+                if (bookTitleAndId.TryGetValue(name, out bookid))
+                {
+                    id = bookid;
+                    // 点击自动搜索框，数据的id
+                    Application.Current.Properties["SecectAutoSearchId"] =id;
+                }
+
+                string url = @" http://api.zhuishushenqi.com/book/" + id;
+                MessageBox.Show(url);
+                string json = common.GetPage(url);
+                var bookDetialInfo = new BookDetialInfo();
+                bookDetialInfo = (BookDetialInfo)common.FromJson("BookDetialInfo", json);
+
+                MessageBox.Show(bookDetialInfo.longIntro);
+            }catch(Exception ex)
+            {
+                ex.ToString();
             }
-
-            string url = @" http://api.zhuishushenqi.com/book/" + id;
-            MessageBox.Show(url);
-            string json = common.GetPage(url);
-            var bookDetialInfo = new BookDetialInfo();
-            bookDetialInfo = (BookDetialInfo)common.FromJson("BookDetialInfo", json);
-
-            MessageBox.Show(bookDetialInfo.longIntro);
+           
 
         }
 
@@ -111,6 +120,11 @@ namespace SearchEbook
             if (bookList.Count() != 0)
             {
                 bookListBox.Visibility = Visibility.Visible;
+                // 点击搜索，查询到的书籍列表
+                Application.Current.Properties["SearchBookList"] = book.books;
+                // 书籍列表
+                var newWindow = new page.Window1();
+                newWindow.Show();
                 //bookListBox.Items.Add( bookList);
             }
             else

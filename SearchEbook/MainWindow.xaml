@@ -17,7 +17,7 @@
          FontFamily="{DynamicResource MaterialDesignFont}">
 
     <Grid>
-        <materialDesign:Card Padding="8" Margin="16" Foreground="SkyBlue" VerticalAlignment="Top" >
+        <materialDesign:Card Padding="8" Margin="8" Foreground="SkyBlue" VerticalAlignment="Top" >
             <TextBlock Foreground="BlueViolet" HorizontalAlignment="Center" FontSize="30"  Style="{DynamicResource MaterialDesignTitleTextBlock}" Height="42" Margin="28,0">Download E-book</TextBlock>
         </materialDesign:Card>
         <Label Content="书名：" HorizontalAlignment="Left" Margin="74,143,0,0" VerticalAlignment="Top"/>
