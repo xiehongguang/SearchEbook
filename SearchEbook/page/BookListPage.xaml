@@ -5,10 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SearchEbook.page"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-      xmlns:ControlzEx="clr-namespace:ControlzEx;assembly=MaterialDesignThemes.Wpf"
+        xmlns:ControlzEx="clr-namespace:ControlzEx;assembly=MaterialDesignThemes.Wpf"
       mc:Ignorable="d"
-      d:DesignHeight="300" d:DesignWidth="300"
-      Title="bookList" Height="398.659" Width="798.171"
+      Title="bookList" Height="585.338" Width="687.773"
          TextElement.Foreground="{DynamicResource MaterialDesignBody}"
          TextElement.FontWeight="Regular"
          TextElement.FontSize="13"
@@ -17,12 +16,21 @@
          Background="{DynamicResource MaterialDesignPaper}"
          FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid>
-            <materialDesign:Card Padding="8" Margin="8" Foreground="SkyBlue" VerticalAlignment="Top" >
-                <TextBlock Foreground="BlueViolet" HorizontalAlignment="Center" FontSize="30"  Style="{DynamicResource MaterialDesignTitleTextBlock}" Height="42" Margin="28,0">部分书籍列表</TextBlock>
-            </materialDesign:Card>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="109*"/>
+            <ColumnDefinition Width="103*"/>
+            <ColumnDefinition Width="96*"/>
+            <ColumnDefinition Width="106*"/>
+            <ColumnDefinition Width="94*"/>
+            <ColumnDefinition Width="94*"/>
+        </Grid.ColumnDefinitions>
+        <materialDesign:Card Padding="8" Margin="8,8,7.6,0" Foreground="SkyBlue" VerticalAlignment="Top" Grid.ColumnSpan="7" >
+            <TextBlock Foreground="BlueViolet" HorizontalAlignment="Center" FontSize="30"  Style="{DynamicResource MaterialDesignTitleTextBlock}" Height="42" Margin="28,0">部分书籍列表</TextBlock>
+        </materialDesign:Card>
 
-        <DataGrid x:Name="dataGrid" Background="White" Margin="5,100,5,5" IsReadOnly="True" AutoGenerateColumns="False" SelectionChanged="dataGrid_SelectionChanged"  >
-            <DataGrid.Columns>
+        <DataGrid Grid.ColumnSpan="7" x:Name="dataGrid" Background="White" Margin="5,100,4.6,5" IsReadOnly="True" AutoGenerateColumns="False" SelectionChanged="dataGrid_SelectionChanged"   >
+            <DataGrid.Columns >
                 <DataGridTextColumn Header="书名"  Width="100" Binding="{Binding title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="作者"  Width="100" Binding="{Binding author, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="类别"  Width="100" Binding="{Binding cat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>

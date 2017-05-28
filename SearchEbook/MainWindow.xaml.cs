@@ -27,7 +27,12 @@ namespace SearchEbook
         public MainWindow()
         {
             InitializeComponent();
-            bookName.TextChanged += BookName_TextChanged;
+            Task t = new Task(() =>
+              {
+                  bookName.TextChanged += BookName_TextChanged;
+              }
+            );
+            t.Start();
             bookListBox.SelectionChanged += BookListBox_SelectionChanged;
         }
 
