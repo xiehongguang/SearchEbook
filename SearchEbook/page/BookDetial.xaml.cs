@@ -34,12 +34,6 @@ namespace SearchEbook.page
             // 点击自动搜索框，数据的id
             var bookId=Int32.Parse( Application.Current.Properties["SelectedIndex"].ToString());
             var bookList = (Book[])Application.Current.Properties["SearchBookList"];
-
-            //string url = @" http://api.zhuishushenqi.com/book/" + bookId;
-            //MessageBox.Show(url);
-            //string json = common.GetPage(url);
-            //var bookDetialInfo = new BookDetialInfo();
-            //bookDetialInfo = (BookDetialInfo)common.FromJson("BookDetialInfo", json);
             bookTitle.Content = bookList[bookId].title;
             bookAuthor.Content = bookList[bookId].author;
             bookCat.Content = bookList[bookId].cat;
@@ -48,8 +42,16 @@ namespace SearchEbook.page
             booklatestChapter.Content = bookList[bookId].lastChapter;
             bookRetentionRatio.Content = bookList[bookId].retentionRatio+" %";
             bookShortInfo.Text = bookList[bookId].shortIntro;
-            bookImage.Source = new BitmapImage(new Uri(bookList[bookId].cover, UriKind.Relative));
-            MessageBox.Show(bookList[bookId].shortIntro);
+
+            string url = bookList[bookId].cover;
+            int urlStartIndex = url.IndexOf("http:");
+            if (urlStartIndex >= 0)
+            {
+                url = url.Substring(urlStartIndex);
+                bookImage.Source = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute));
+                // picturebox_cover.ImageLocation = url;
+                //MessageBox.Show(bookList[bookId].cover);
+            }
         }
       
     }
