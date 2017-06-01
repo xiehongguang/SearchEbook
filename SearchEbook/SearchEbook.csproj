@@ -92,6 +92,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\AutoComplete.cs" />
     <Compile Include="Model\BookDetialInfo.cs" />
     <Compile Include="Model\BookSource.cs" />
     <Compile Include="Model\ChapterContent.cs" />

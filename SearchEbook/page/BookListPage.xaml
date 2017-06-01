@@ -29,7 +29,7 @@
             <TextBlock Foreground="BlueViolet" HorizontalAlignment="Center" FontSize="30"  Style="{DynamicResource MaterialDesignTitleTextBlock}" Height="42" Margin="28,0">部分书籍列表</TextBlock>
         </materialDesign:Card>
 
-        <DataGrid Grid.ColumnSpan="7" x:Name="dataGrid" Background="White" Margin="5,100,4.6,5" IsReadOnly="True" AutoGenerateColumns="False" SelectionChanged="dataGrid_SelectionChanged"   >
+        <DataGrid Grid.ColumnSpan="7" x:Name="dataGrid" Background="White" Margin="5,100,4.6,5" IsReadOnly="True" AutoGenerateColumns="False" SelectionChanged="dataGrid_SelectionChanged"  MouseDoubleClick="dataGrid_MouseDoubleClick" >
             <DataGrid.Columns >
                 <DataGridTextColumn Header="书名"  Width="100" Binding="{Binding title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="作者"  Width="100" Binding="{Binding author, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>

@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using static SearchEbook.Model.AutoComplete;
 
 namespace SearchEbook.Controller
 {
@@ -15,7 +16,9 @@ namespace SearchEbook.Controller
     {
         public Object FromJson(string method, string str)
         {
-
+            //string result = GET(url, args);
+            //JObject obj = JObject.Parse(result);
+            //return obj;
             /*
              1：车辆信息CarInfo
 			 2：发送命令CommandInfo
@@ -29,6 +32,8 @@ namespace SearchEbook.Controller
                     return JsonConvert.DeserializeObject<SearchBook>(str);
                 case "BookDetialInfo":
                     return JsonConvert.DeserializeObject<BookDetialInfo>(str);
+                case "CompleteTitle":
+                    return JsonConvert.DeserializeObject<CompleteTitle>(str);
                 default:
                     return "";
             }

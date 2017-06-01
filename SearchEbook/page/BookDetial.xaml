@@ -7,7 +7,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:ControlzEx="clr-namespace:ControlzEx;assembly=MaterialDesignThemes.Wpf"
         mc:Ignorable="d"
-        Title="bookList" Height="541.708" Width="507.683"
+        Title="bookList" Height="582.666" Width="507.683"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -16,29 +16,26 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid>
-        <Image x:Name="bookImage" HorizontalAlignment="Left" Height="135" Margin="29,25,0,0" VerticalAlignment="Top" Width="100"/>
+        <Image x:Name="bookImage"  HorizontalAlignment="Left" Height="135" Margin="29,25,0,0" VerticalAlignment="Top" Width="100"/>
         <Label x:Name="bookTitle" Content="双阙" HorizontalAlignment="Left" Margin="179,25,0,0" VerticalAlignment="Top"/>
-        <Label Content="海青拿天鹅" HorizontalAlignment="Left" Margin="179,56,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="bookAuthor" Content="海青拿天鹅" HorizontalAlignment="Left" Margin="179,56,0,0" VerticalAlignment="Top"/>
         <Label Content="|" HorizontalAlignment="Left" Margin="259,56,0,0" VerticalAlignment="Top"/>
-        <Label Content="古典" HorizontalAlignment="Left" Margin="277,56,0,0" VerticalAlignment="Top"/>
-        <Label Content="28万字" HorizontalAlignment="Left" Margin="317,56,0,0" VerticalAlignment="Top" Width="37"/>
+        <Label x:Name="bookCat" Content="古典" HorizontalAlignment="Left" Margin="277,56,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="bookWordCount" Content="28万字" HorizontalAlignment="Left" Margin="317,56,0,0" VerticalAlignment="Top" Width="37"/>
         <Label Content="追书存留率" HorizontalAlignment="Left" Margin="179,87,0,0" VerticalAlignment="Top" />
-        <Label Content="0%" HorizontalAlignment="Left" Margin="259,87,0,0" VerticalAlignment="Top" />
+        <Label x:Name="bookRetentionRatio" Content="0%" HorizontalAlignment="Left" Margin="259,87,0,0" VerticalAlignment="Top" />
         <Label Content="追书人数：" HorizontalAlignment="Left" Margin="179,108,0,0" VerticalAlignment="Top" />
-        <Label Content="100w" HorizontalAlignment="Left" Margin="259,108,0,0" VerticalAlignment="Top" />
+        <Label x:Name="bookLatelyFollower" Content="100w" HorizontalAlignment="Left" Margin="259,108,0,0" VerticalAlignment="Top" />
         <Label Content="最新章节：" HorizontalAlignment="Left" Margin="179,134,0,0" VerticalAlignment="Top" />
-        <Label Content="双阙" HorizontalAlignment="Left" Margin="259,134,0,0" VerticalAlignment="Top" />
+        <Label x:Name="booklatestChapter" Content="双阙" HorizontalAlignment="Left" Margin="259,134,0,0" VerticalAlignment="Top" />
         <Label Content="简介：" HorizontalAlignment="Left" Margin="29,174,0,0" VerticalAlignment="Top" />
-        <Label Content="简介：" HorizontalAlignment="Left" Margin="29,174,0,0" VerticalAlignment="Top" />
-        <Label Content="吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼" HorizontalAlignment="Left" Margin="79,205,0,0" VerticalAlignment="Top" />
-        <Label Content="简介：" HorizontalAlignment="Left" Margin="29,264,0,0" VerticalAlignment="Top" />
         <Button Content="下载" HorizontalAlignment="Left" Margin="366,269,0,0" VerticalAlignment="Top" Width="75"/>
-
-        <DataGrid Grid.ColumnSpan="7" x:Name="dataGrid" Background="White" Margin="5,300,4.6,5" IsReadOnly="True" AutoGenerateColumns="False" SelectionChanged="dataGrid_SelectionChanged"   >
+        <TextBlock x:Name="bookShortInfo" HorizontalAlignment="Left" Margin="74,205,0,0" TextWrapping="Wrap" Text="吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼和吼吼吼吼吼吼吼吼吼吼吼吼和" VerticalAlignment="Top" Height="90" Width="280"/>
+        <DataGrid Grid.ColumnSpan="7" x:Name="dataGrid" Background="White" Margin="5,300,4.6,5" IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns >
                 <DataGridTextColumn Header="章节名称"  Width="100" Binding="{Binding title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-               <DataGridTextColumn Header="链接"  Width="500" Binding="{Binding link, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="链接"  Width="500" Binding="{Binding link, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
         </DataGrid>
-    </Grid>
+        </Grid>
 </Window>

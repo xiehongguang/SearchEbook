@@ -57,7 +57,16 @@ namespace SearchEbook.page
         }
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //MessageBox.Show("idididiidididiiddiididididididi");
+        }
 
+        private void dataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var index = dataGrid.SelectedIndex;
+            Application.Current.Properties["SelectedIndex"] = index;
+            var newWindow = new page.BookDetial();
+            newWindow.Show();
+            //MessageBox.Show(index.ToString());
         }
     }
 }
