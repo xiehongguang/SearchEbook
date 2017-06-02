@@ -1,6 +1,7 @@
 ﻿//using Microsoft.Analytics.Interfaces;
 //using Microsoft.Analytics.Types.Sql;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SearchEbook.Model;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace SearchEbook.Controller
              1：车辆信息CarInfo
 			 2：发送命令CommandInfo
 			 3：航班信息FlightInfo
-			 4: 机位信息SeatInfo
+			 4: 机位信息SeatInfo 
 			 5：训练信息TrainInfo
              */
             switch (method)
@@ -34,6 +35,14 @@ namespace SearchEbook.Controller
                     return JsonConvert.DeserializeObject<BookDetialInfo>(str);
                 case "CompleteTitle":
                     return JsonConvert.DeserializeObject<CompleteTitle>(str);
+                case "ChapterList":
+                    return JsonConvert.DeserializeObject<ChapterList>(str);
+                case "Source":
+                    return JsonConvert.DeserializeObject<Source>(str);
+                case "BookSource":
+                    JArray array = JArray.Parse(str);
+                    return array;
+                   // return JsonConvert.DeserializeObject<BookSource>(str);
                 default:
                     return "";
             }

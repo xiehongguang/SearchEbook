@@ -9,7 +9,7 @@ namespace SearchEbook.Model
     //Host:api.zhuishushenqi.com
     //Method:GET /toc/书源ID?view=chapters
     //http://api.zhuishushenqi.com/toc/54914a84338fe64c65fb0035?view=chapters
-    public class Rootobject
+    public class ChapterList
     {
         public string _id { get; set; }
         public string link { get; set; }

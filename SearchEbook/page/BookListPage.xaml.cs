@@ -44,15 +44,6 @@ namespace SearchEbook.page
                 book.shortIntro = item.shortIntro;
                 list.Add(book);
             }
-            //for (int i = 0; i < 100; i++)
-            //{
-
-            //    book[i] = new Book();
-            //    book[i].title = "气源车";
-            //    book[i].shortIntro = "西周，诗歌与传说的时代。他持弓而立，在缤纷落英中向我走来；他浅浅莞尔，笑容如月华般似曾相识；想变得幸福，心却在摇摆，就像灰姑娘的舞鞋，明明非常合脚，12点时转身...";
-            //    list.Add(book[i]);
-            //}
-
             dataGrid.ItemsSource = list;
         }
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

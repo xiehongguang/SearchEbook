@@ -11,10 +11,12 @@ namespace SearchEbook.Model
     Method:GET /toc?view=summary&book=书籍ID HTTP/1.1
     Example: http://api.zhuishushenqi.com/toc?view=summary&book=54914a84338fe64c65fb0030
     */
-    class BookSource
-    { 
-        public Source[] Property1 { get; set; } 
+
+    public class BookSource
+    {
+        public Source[] source { get; set; }
     }
+
     public class Source
     {
         public string _id { get; set; }
@@ -28,4 +30,5 @@ namespace SearchEbook.Model
         public bool starting { get; set; }
         public string host { get; set; }
     }
+
 }
