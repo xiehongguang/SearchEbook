@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
-        Title="bookList" Height="665.904" Width="588.279"
+        Title="bookList" Height="724.039" Width="638.486"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -31,13 +31,15 @@
         <Label Content="最新章节：" HorizontalAlignment="Left" Margin="225,134,0,0" VerticalAlignment="Top" />
         <Label x:Name="booklatestChapter" Content="双阙" HorizontalAlignment="Left" Margin="305,134,0,0" VerticalAlignment="Top" />
         <Label Content="简介：" HorizontalAlignment="Left" Margin="29,174,0,0" VerticalAlignment="Top" />
-        <Button Content="下载" HorizontalAlignment="Left" Margin="469,274,0,0" VerticalAlignment="Top" Width="75"/>
-        <TextBlock x:Name="bookShortInfo" HorizontalAlignment="Left" Margin="74,205,0,0" TextWrapping="Wrap" Text="吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼和吼吼吼吼吼吼吼吼吼吼吼吼和" VerticalAlignment="Top" Height="90" Width="326"/>
-        <DataGrid Grid.ColumnSpan="7" x:Name="dataGrid" Background="White" Margin="5,300,4.6,15" IsReadOnly="True" AutoGenerateColumns="False">
+        <Button x:Name="DownloadButton" Content="下载" HorizontalAlignment="Left" Margin="469,274,0,0" VerticalAlignment="Top" Width="75" Click="DownloadButton_Click"/>
+        <TextBlock x:Name="bookShortInfo" HorizontalAlignment="Left" Margin="87,188,0,0" TextWrapping="Wrap" Text="吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼和吼吼吼吼吼吼吼吼吼吼吼吼和" VerticalAlignment="Top" Height="63" Width="326"/>
+        <DataGrid x:Name="dataGrid" Background="White" Margin="5,329,5,15.4" IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns >
                 <DataGridTextColumn x:Name="chapterName" Header="章节名称"  Width="100" Binding="{Binding name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn x:Name="chapterLink" Header="链接"  Width="500" Binding="{Binding link, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
         </DataGrid>
+        <ProgressBar x:Name="downloadProcess" HorizontalAlignment="Left" Height="21" Margin="87,303,0,0" VerticalAlignment="Top" Width="326" Visibility="Hidden" />
+        <Label x:Name="downloadInfo" Content="正在下载:第三百章 111/999 95%" HorizontalAlignment="Left" Margin="87,272,0,0" VerticalAlignment="Top" Visibility="Hidden" />
     </Grid>
 </Window>
