@@ -96,7 +96,10 @@
     <Compile Include="Model\BookDetialInfo.cs" />
     <Compile Include="Model\BookSource.cs" />
     <Compile Include="Model\ChapterContent.cs" />
+    <Compile Include="Model\ChapterInfo.cs" />
     <Compile Include="Model\ChapterList.cs" />
+    <Compile Include="Model\KindleBook.cs" />
+    <Compile Include="Model\Kindlegen.cs" />
     <Compile Include="Model\MixBookSource.cs" />
     <Compile Include="Model\MixChapterList.cs" />
     <Compile Include="Model\SearchBook.cs" />
@@ -126,6 +129,7 @@
     <None Include="Json\BookDetailInfo.json" />
     <None Include="Json\BookSource.json" />
     <None Include="Json\ChapterContent.json" />
+    <None Include="Json\ChapterInfo.json" />
     <None Include="Json\ChapterList.json" />
     <None Include="Json\MixChapterList.json" />
     <None Include="Json\SearchBook.json" />
@@ -135,11 +139,18 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Scripts\jquery-2.1.1.min.map" />
+    <None Include="workspace\tpls\tpl_content.opf" />
+    <None Include="workspace\tpls\tpl_toc.ncx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="workspace\tools\kindlegen.exe" />
+    <Content Include="workspace\tpls\tpl_book_toc.html" />
+    <Content Include="workspace\tpls\tpl_chapter.html" />
+    <Content Include="workspace\tpls\tpl_cover.html" />
+    <Content Include="workspace\tpls\tpl_style.css" />
     <Resource Include="Doc\apidoc.txt" />
     <Resource Include="image\noImage.png" />
     <Content Include="Scripts\jquery-2.1.1.intellisense.js" />

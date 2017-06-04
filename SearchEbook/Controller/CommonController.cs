@@ -37,6 +37,8 @@ namespace SearchEbook.Controller
                     return JsonConvert.DeserializeObject<CompleteTitle>(str);
                 case "ChapterList":
                     return JsonConvert.DeserializeObject<ChapterList>(str);
+                case "ChapterInfo":
+                    return JsonConvert.DeserializeObject<ChapterInfo>(str);
                 case "Source":
                     return JsonConvert.DeserializeObject<Source>(str);
                 case "BookSource":

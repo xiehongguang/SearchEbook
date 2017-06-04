@@ -44,25 +44,6 @@ namespace SearchEbook.page
             initData();
         }
 
-        private void BackgroundDownload_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            //downloadComplate();
-        }
-
-        private void BackgroundDownload_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            downloadProcess.Value = e.ProgressPercentage;
-            if (e.UserState != null)
-            {
-                downloadInfo.Content = e.UserState.ToString();
-            }
-        }
-
-        private void BackgroundDownload_DoWork(object sender, DoWorkEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// 初始化详情界面，填充数据
         /// </summary>
@@ -110,6 +91,7 @@ namespace SearchEbook.page
             url = "http://api.zhuishushenqi.com/toc/"+ sourceList.First().Value+ "?view=chapters";
             json = common.GetPage(url);
             chapter = (ChapterList)common.FromJson("ChapterList", json);
+            Application.Current.Properties["chapterList"] = chapter;
 
             ObservableCollection<ChapterList> list = new ObservableCollection<ChapterList>();
             
@@ -175,6 +157,135 @@ namespace SearchEbook.page
                 // 取消任务
                 backgroundDownload.CancelAsync();
                 DownloadButton.Content = "正在取消";
+            }
+        }
+
+        // 下载完成
+        private void downloadComplate()
+        {
+            downloadInfo.Visibility = Visibility.Hidden;
+            downloadProcess.Visibility = Visibility.Hidden;
+            DownloadButton.Content = "全本下载";
+        }
+
+        // 后台下载完成
+        private void BackgroundDownload_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            downloadComplate();
+        }
+
+        // 进度条的变化
+        private void BackgroundDownload_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            downloadProcess.Value = e.ProgressPercentage;
+            if (e.UserState != null)
+            {
+                // 获取用户状态
+                downloadInfo.Content = e.UserState.ToString();
+            }
+        }
+
+        // 进行下载
+        private void BackgroundDownload_DoWork(object sender, DoWorkEventArgs e)
+        {
+            // Chapter[] chapterList = new Chapter();
+            ChapterList _chapter = (ChapterList)Application.Current.Properties["chapterList"];
+            var chapterList = _chapter.chapters;
+            var progessBar = downloadProcess;
+            var lable = downloadInfo;
+            var filePath = e.Argument.ToString();
+            // 章节具体信息
+            List<ChapterDetial> chaperInfoList = new List<ChapterDetial>();
+
+            for(int i = 0; i < chapterList.Length;i++)
+            {
+                if(backgroundDownload.CancellationPending)
+                {
+                    return;
+                }
+                var chapter = chapterList[i];
+                double progressBarRat=(double)(i + 1) / (double)chapterList.Length;
+                string info = string.Format("正在下载:{0} {1}/{2} {3:F2}%", chapter.title, i + 1, chapterList.Length,
+                  progressBarRat * 100);
+                backgroundDownload.ReportProgress(i, info);
+                
+                while(true)
+                {
+                    var downloadSuccess = false;
+                    var error = "";
+                    // 每个源尝试下载3次
+                    //for (int j = 0; j < 3; j++)
+                    //{
+                        try
+                        {
+                            var charterInfo = getChapter(chapter.link);
+                            if (charterInfo != null)
+                            {
+                                chaperInfoList.Add(charterInfo);
+                                downloadSuccess = true;
+                            }
+                        }catch (Exception ex)
+                        {
+                            error = ex.ToString();
+                        }
+                      
+                    //}
+                    if(!downloadSuccess)
+                    {
+                        var result = MessageBox.Show(error, "章节 " + chapter.title + " 下载失败", MessageBoxButton.OKCancel);
+                        if (result == MessageBoxResult.OK)
+                        {
+                            return;
+                        }
+                        else if (result == MessageBoxResult.Cancel)
+                        {
+                            var emptyChaper = new ChapterDetial();
+                            emptyChaper.title = chapter.title;
+                            emptyChaper.body = "本章下载失败了，失败原因:\n " + error;
+                            chaperInfoList.Add(emptyChaper);
+                            downloadSuccess = true;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            backgroundDownload.ReportProgress(chapterList.Length, "正在生成电子书请稍后....");
+            // 获取文件拓展名
+            var extName = System.IO.Path.GetExtension(filePath);
+            KindleBook kindleBook = new KindleBook();
+            kindleBook.name = downloadBook.title;
+            kindleBook.author = downloadBook.author;
+            kindleBook.id = downloadBook._id;
+            kindleBook.chapters = chaperInfoList.ToArray();
+            if (extName.ToLower() == ".txt")
+            {
+                Kindlegen.book2Txt(kindleBook, filePath);
+            }
+            else if (extName.ToLower() == ".mobi")
+            {
+                Kindlegen.book2Mobi(kindleBook, filePath);
+            }
+        }
+
+        private ChapterDetial getChapter(string link)
+        {
+            // 获取当前时间戳
+            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+            int timestamp=(int)(DateTime.Now - startTime).TotalSeconds;
+            string url = "http://chapter2.zhuishushenqi.com/chapter/" + link + "?k=2124b73d7e2e1945&t=" + timestamp + "";
+            var json = common.GetPage(url);
+            var chapterCon = (ChapterInfo)common.FromJson("ChapterInfo", json);
+            if(chapterCon.ok)
+            {
+                return chapterCon.chapter;
+            }
+            else
+            {
+                return null;
             }
         }
     }
