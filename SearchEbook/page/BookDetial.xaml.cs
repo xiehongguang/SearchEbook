@@ -49,60 +49,84 @@ namespace SearchEbook.page
         /// </summary>
         public void initData()
         {
-            // 点击自动搜索框，数据的id
-            var selectedIndex = Int32.Parse( Application.Current.Properties["SelectedIndex"].ToString());
-            var bookList = (Book[])Application.Current.Properties["SearchBookList"];
-            downloadBook = bookList[selectedIndex];
-            bookTitle.Content = bookList[selectedIndex].title;
-            bookAuthor.Content = bookList[selectedIndex].author;
-            bookCat.Content = bookList[selectedIndex].cat;
-            bookWordCount.Content = bookList[selectedIndex].wordCount+ "字";
-            bookLatelyFollower.Content = bookList[selectedIndex].latelyFollower+" 人";
-            booklatestChapter.Content = bookList[selectedIndex].lastChapter;
-            bookRetentionRatio.Content = bookList[selectedIndex].retentionRatio+" %";
-            bookShortInfo.Text = bookList[selectedIndex].shortIntro;
-
-            string url = bookList[selectedIndex].cover;
-            int urlStartIndex = url.IndexOf("http:");
-            if (urlStartIndex >= 0)
+            try
             {
-                url = url.Substring(urlStartIndex);
-                bookImage.Source = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute));
-                // picturebox_cover.ImageLocation = url;
-                //MessageBox.Show(bookList[bookId].cover);
-            }
+                // 点击自动搜索框，数据的id
+                var selectedIndex = Int32.Parse(Application.Current.Properties["SelectedIndex"].ToString());
+                var bookList = (Book[])Application.Current.Properties["SearchBookList"];
+                downloadBook = bookList[selectedIndex];
+                bookTitle.Content = bookList[selectedIndex].title;
+                bookAuthor.Content = bookList[selectedIndex].author;
+                bookCat.Content = bookList[selectedIndex].cat;
+                bookWordCount.Content = bookList[selectedIndex].wordCount + "字";
+                bookLatelyFollower.Content = bookList[selectedIndex].latelyFollower + " 人";
+                booklatestChapter.Content = bookList[selectedIndex].lastChapter;
+                bookRetentionRatio.Content = bookList[selectedIndex].retentionRatio + " %";
+                bookShortInfo.Text = bookList[selectedIndex].shortIntro;
+
+                string url = bookList[selectedIndex].cover;
+                int urlStartIndex = url.IndexOf("http:");
+                if (urlStartIndex >= 0)
+                {
+                    url = url.Substring(urlStartIndex);
+                    bookImage.Source = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute));
+                    // picturebox_cover.ImageLocation = url;
+                    //MessageBox.Show(bookList[bookId].cover);
+                }
 
 
-            // 获取书源
-            url = "http://api.zhuishushenqi.com/toc?view=summary&book=" + bookList[selectedIndex]._id + "";
-            string json = common.GetPage(url);
-            //jsonArry
-            var bookSource =  JArray.Parse(json);
-            Dictionary<string,string> sourceList = new Dictionary<string, string>();
-            List<Source> sourceDetialList = new List<Source>();
-            foreach( var sourceItem in bookSource)
+                // 获取书源
+                url = "http://api.zhuishushenqi.com/toc?view=summary&book=" + bookList[selectedIndex]._id + "";
+                string json = common.GetPage(url);
+                //jsonArry
+                var bookSource = JArray.Parse(json);
+                if (String.IsNullOrEmpty(json))
+                {
+                    MessageBox.Show("网络错误");
+                    return;
+                }
+                Dictionary<string, string> sourceList = new Dictionary<string, string>();
+                List<Source> sourceDetialList = new List<Source>();
+                foreach (var sourceItem in bookSource)
+                {
+                    var info = sourceItem.ToObject<Source>();
+                    sourceDetialList.Add(info);
+                    // 书源的名字 书源内书的id
+                    sourceList.Add(info.name, info._id);
+                }
+                // 章节列表
+                url = "http://api.zhuishushenqi.com/toc/" + sourceList.First().Value + "?view=chapters";
+                json = common.GetPage(url);
+                chapter = (ChapterList)common.FromJson("ChapterList", json);
+               
+                if (String.IsNullOrEmpty(json))
+                {
+                    MessageBox.Show("网络错误");
+                    return;
+                }
+                if (chapter.name == "优质书源")
+                {
+                    MessageBox.Show("当前电子书不支持下载");
+                    return;
+                }
+                Application.Current.Properties["chapterList"] = chapter;
+
+                ObservableCollection<ChapterList> list = new ObservableCollection<ChapterList>();
+
+                foreach (var item in chapter.chapters)
+                {
+                    chapter = new ChapterList();
+                    chapter.name = item.title;
+                    chapter.link = item.link;
+                    list.Add(chapter);
+                }
+                dataGrid.ItemsSource = list;
+            }catch(Exception ex)
             {
-                var info = sourceItem.ToObject<Source>();
-                sourceDetialList.Add(info);
-                // 书源的名字 书源内书的id
-                sourceList.Add(info.name, info._id);
+                MessageBox.Show("网络错误");
+                return;
             }
-            // 章节列表
-            url = "http://api.zhuishushenqi.com/toc/"+ sourceList.First().Value+ "?view=chapters";
-            json = common.GetPage(url);
-            chapter = (ChapterList)common.FromJson("ChapterList", json);
-            Application.Current.Properties["chapterList"] = chapter;
-
-            ObservableCollection<ChapterList> list = new ObservableCollection<ChapterList>();
             
-            foreach (var item in chapter.chapters)
-            {
-                chapter = new ChapterList();
-                chapter.name = item.title;
-                chapter.link = item.link;
-                list.Add(chapter);
-            }
-            dataGrid.ItemsSource = list;
 
         }
 
@@ -256,6 +280,9 @@ namespace SearchEbook.page
             backgroundDownload.ReportProgress(chapterList.Length, "正在生成电子书请稍后....");
             // 获取文件拓展名
             var extName = System.IO.Path.GetExtension(filePath);
+            var selectedIndex = Int32.Parse(Application.Current.Properties["SelectedIndex"].ToString());
+            var bookList = (Book[])Application.Current.Properties["SearchBookList"];
+            downloadBook = bookList[selectedIndex];
             KindleBook kindleBook = new KindleBook();
             kindleBook.name = downloadBook.title;
             kindleBook.author = downloadBook.author;
@@ -278,6 +305,11 @@ namespace SearchEbook.page
             int timestamp=(int)(DateTime.Now - startTime).TotalSeconds;
             string url = "http://chapter2.zhuishushenqi.com/chapter/" + link + "?k=2124b73d7e2e1945&t=" + timestamp + "";
             var json = common.GetPage(url);
+            if (String.IsNullOrEmpty(json))
+            {
+                MessageBox.Show("网络错误");
+                return null;
+            }
             var chapterCon = (ChapterInfo)common.FromJson("ChapterInfo", json);
             if(chapterCon.ok)
             {

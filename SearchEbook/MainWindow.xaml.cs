@@ -2,6 +2,7 @@
 using SearchEbook.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,10 +28,12 @@ namespace SearchEbook
         CommonController common = new CommonController();
         public MainWindow()
         {
+            //string file = Directory.GetCurrentDirectory() + "\\workspace\\tools\\kindlegen.exe";
+            //MessageBox.Show(file);
             InitializeComponent();
             //Task t = new Task(() =>
             //  {
-                  bookName.TextChanged += BookName_TextChanged;
+            bookName.TextChanged += BookName_TextChanged;
             //  }
             //);
             //t.Start();
@@ -47,9 +50,6 @@ namespace SearchEbook
                 bookName.Text = bookListBox.SelectedItem.ToString();
                 bookListBox.Visibility = Visibility.Hidden;// false;
                 searchBook_Click(sender, e);
-
-
-
                 string name = bookListBox.SelectedItem.ToString();
                 string bookid;
                 string id = "0";
@@ -57,7 +57,7 @@ namespace SearchEbook
                 {
                     id = bookid;
                     // 点击自动搜索框，数据的id
-                    Application.Current.Properties["SelectAutoSearchId"] =id;
+                    Application.Current.Properties["SelectAutoSearchId"] = id;
                     var newWindow = new page.BookDetial();
                     newWindow.Show();
                 }
@@ -73,7 +73,7 @@ namespace SearchEbook
 
                 //MessageBox.Show(bookDetialInfo.longIntro);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ex.ToString();
             }
@@ -81,36 +81,42 @@ namespace SearchEbook
 
         private void BookName_TextChanged(object sender, TextChangedEventArgs e)
         {
-          //  Task task = new Task(() =>
-           // {
-                if (string.IsNullOrWhiteSpace(bookName.Text)) return;
-                bookListBox.Items.Clear();
-                bookListBox.Visibility = Visibility.Visible;
-                bookTitleAndId.Clear();
-                string name = bookName.Text.ToString().Trim();
-                string url = string.Format("http://api.zhuishushenqi.com/book/auto-complete?query={0}", name);
-                string json = common.GetPage(url);
-                var bookComplete = new CompleteTitle();
-                bookComplete = (CompleteTitle)common.FromJson("CompleteTitle", json);
-                List<string> list = new List<string>();
-                var ok = bookComplete.ok;
-                if (ok)
+            //  Task task = new Task(() =>
+            // {
+            if (string.IsNullOrWhiteSpace(bookName.Text)) return;
+            bookListBox.Items.Clear();
+            bookListBox.Visibility = Visibility.Visible;
+            bookTitleAndId.Clear();
+            string name = bookName.Text.ToString().Trim();
+            string url = string.Format("http://api.zhuishushenqi.com/book/auto-complete?query={0}", name);
+            string json = common.GetPage(url);
+            if (String.IsNullOrEmpty(json))
+            {
+                MessageBox.Show("网络错误");
+                return;
+            }
+            var bookComplete = new CompleteTitle();
+            bookComplete = (CompleteTitle)common.FromJson("CompleteTitle", json);
+            List<string> list = new List<string>();
+
+            var ok = bookComplete.ok;
+            if (ok)
+            {
+                if (bookComplete.keywords.Length <= 0)
                 {
-                    if (bookComplete.keywords.Length <= 0)
+                    bookListBox.Items.Add("没有此图书");
+                }
+                else
+                {
+                    foreach (var item in bookComplete.keywords)
                     {
-                        bookListBox.Items.Add("没有此图书");
-                    }
-                    else
-                    {
-                        foreach (var item in bookComplete.keywords)
-                        {
-                            list.Add(item);
-                            bookListBox.Items.Add(item);
-                        }
+                        list.Add(item);
+                        bookListBox.Items.Add(item);
                     }
                 }
-          //  });
-      
+            }
+            //  });
+
         }
         /// <summary>
         /// 搜索图书
@@ -125,8 +131,13 @@ namespace SearchEbook
             string url = " http://api.zhuishushenqi.com/book/fuzzy-search?query='" + name + "'&start=0&limit=5";
             string json = common.GetPage(url);
             var book = new SearchBook();
-            book =(SearchBook) common.FromJson("SearchBook", json);
-            if( book.books == null)
+            if (String.IsNullOrEmpty(json))
+            {
+                MessageBox.Show("网络错误");
+                return;
+            }
+            book = (SearchBook)common.FromJson("SearchBook", json);
+            if (book.books == null)
             {
                 bookListBox.Items.Add("没有此图书");
                 return;
@@ -160,7 +171,8 @@ namespace SearchEbook
 
         void RunAsync(Action action)
         {
-            ((Action)(delegate () {
+            ((Action)(delegate ()
+            {
                 action?.Invoke();
             })).BeginInvoke(null, null);
         }
