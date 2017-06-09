@@ -31,7 +31,7 @@
         <Label Content="最新章节：" HorizontalAlignment="Left" Margin="225,134,0,0" VerticalAlignment="Top" />
         <Label x:Name="booklatestChapter" Content="双阙" HorizontalAlignment="Left" Margin="305,134,0,0" VerticalAlignment="Top" />
         <Label Content="简介：" HorizontalAlignment="Left" Margin="29,174,0,0" VerticalAlignment="Top" />
-        <Button x:Name="DownloadButton" Content="下载" HorizontalAlignment="Left" Margin="469,274,0,0" VerticalAlignment="Top" Width="75" Click="DownloadButton_Click"/>
+        <Button x:Name="DownloadButton" Content="下载" HorizontalAlignment="Left" Margin="469,274,0,0" VerticalAlignment="Top" Width="100" Click="DownloadButton_Click"/>
         <TextBlock x:Name="bookShortInfo" HorizontalAlignment="Left" Margin="87,188,0,0" TextWrapping="Wrap" Text="吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼和吼吼吼吼吼吼吼吼吼吼吼吼和" VerticalAlignment="Top" Height="63" Width="326"/>
         <DataGrid x:Name="dataGrid" Background="White" Margin="5,329,5,15.4" IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns >

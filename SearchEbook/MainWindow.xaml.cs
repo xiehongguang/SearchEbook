@@ -39,7 +39,9 @@ namespace SearchEbook
             //t.Start();
             bookListBox.SelectionChanged += BookListBox_SelectionChanged;
         }
-
+        public void useInFileSer()
+        {
+        }
         private void BookListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
