@@ -170,7 +170,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="app.ico" />
     <Resource Include="image\app.ico" />
     <Resource Include="image\searchBook.ico" />
     <Resource Include="image\book.png" />
