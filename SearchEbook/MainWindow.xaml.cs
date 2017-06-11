@@ -26,20 +26,22 @@ namespace SearchEbook
     {
         Dictionary<string, string> bookTitleAndId = new Dictionary<string, string>();
         CommonController common = new CommonController();
-        public MainWindow()
+        public  MainWindow()
         {
             //string file = Directory.GetCurrentDirectory() + "\\workspace\\tools\\kindlegen.exe";
             //MessageBox.Show(file);
             InitializeComponent();
             //Task t = new Task(() =>
             //  {
-            bookName.TextChanged += BookName_TextChanged;
+            bookName.TextChanged +=  BookName_TextChanged;
             //  }
             //);
             //t.Start();
             bookListBox.SelectionChanged += BookListBox_SelectionChanged;
         }
-
+        public void useInFileSer()
+        {
+        }
         private void BookListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -63,7 +65,7 @@ namespace SearchEbook
                 }
                 else
                 {
-                    MessageBox.Show("error");
+                    //MessageBox.Show("error");
                 }
                 //string url = @" http://api.zhuishushenqi.com/book/" + id;
                 //MessageBox.Show(url);
@@ -81,15 +83,24 @@ namespace SearchEbook
 
         private void BookName_TextChanged(object sender, TextChangedEventArgs e)
         {
+            this.zhifubao.Visibility = Visibility.Hidden;
+            this.weixin.Visibility = Visibility.Hidden;
             //  Task task = new Task(() =>
             // {
-            if (string.IsNullOrWhiteSpace(bookName.Text)) return;
-            bookListBox.Items.Clear();
+            if (string.IsNullOrWhiteSpace(bookName.Text))
+            {
+                return;
+            }
+            // bookListBox.Items.Clear();
+            bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Clear());
             bookListBox.Visibility = Visibility.Visible;
             bookTitleAndId.Clear();
             string name = bookName.Text.ToString().Trim();
-            string url = string.Format("http://api.zhuishushenqi.com/book/auto-complete?query={0}", name);
-            string json = common.GetPage(url);
+            string url =  string.Format("http://api.zhuishushenqi.com/book/auto-complete?query={0}", name);
+            var getValue=Task.Run(()=>
+            {
+             string json=common.GetPage(url);
+           // var json =  getValue;
             if (String.IsNullOrEmpty(json))
             {
                 MessageBox.Show("网络错误");
@@ -104,18 +115,21 @@ namespace SearchEbook
             {
                 if (bookComplete.keywords.Length <= 0)
                 {
-                    bookListBox.Items.Add("没有此图书");
+                        bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Clear());
+                        bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Add("没有此图书"));
+                       // bookListBox.Items.Add("没有此图书");
                 }
                 else
                 {
+                    bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Clear());
                     foreach (var item in bookComplete.keywords)
                     {
                         list.Add(item);
-                        bookListBox.Items.Add(item);
+                        bookListBox.Dispatcher.InvokeAsync(()=> bookListBox.Items.Add(item));
                     }
                 }
             }
-            //  });
+              });
 
         }
         /// <summary>
@@ -125,7 +139,14 @@ namespace SearchEbook
         /// <param name="e"></param>
         private void searchBook_Click(object sender, RoutedEventArgs e)
         {
-            bookListBox.Items.Clear();
+            this.zhifubao.Visibility = Visibility.Hidden;
+            this.weixin.Visibility = Visibility.Hidden;
+            if (string.IsNullOrWhiteSpace(bookName.Text))
+            {
+                return;
+            }
+            bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Clear());
+            //bookListBox.Items.Clear();
             bookListBox.Visibility = Visibility.Visible;
             string name = bookName.Text.ToString().Trim();
             string url = " http://api.zhuishushenqi.com/book/fuzzy-search?query='" + name + "'&start=0&limit=5";
@@ -139,14 +160,17 @@ namespace SearchEbook
             book = (SearchBook)common.FromJson("SearchBook", json);
             if (book.books == null)
             {
-                bookListBox.Items.Add("没有此图书");
+                bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Clear());
+                bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Add("没有此图书"));
+               // bookListBox.Items.Add("没有此图书");
                 return;
             }
             List<string> bookList = new List<string>();
             foreach (var item in book.books)
             {
                 bookList.Add(item.title);
-                bookListBox.Items.Add(item.title);
+                bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Add(item.title));
+               // bookListBox.Items.Add(item.title);
             }
             if (bookList.Count() != 0)
             {
@@ -160,13 +184,32 @@ namespace SearchEbook
             }
             else
             {
-                bookListBox.Items.Add("没有此图书");
+                bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Clear());
+                bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Add("没有此图书"));
+                // bookListBox.Items.Add("没有此图书");
             }
         }
 
         private void donate_Click(object sender, RoutedEventArgs e)
         {
+            if(this.zhifubao.Visibility == Visibility.Visible)
+            {
 
+                this.zhifubao.Visibility = Visibility.Hidden;
+                this.weixin.Visibility = Visibility.Hidden;
+                if (bookListBox!=null)
+                {
+
+                    this.bookListBox.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+
+                this.zhifubao.Visibility = Visibility.Visible;
+                this.weixin.Visibility = Visibility.Visible;
+                this.bookListBox.Visibility = Visibility.Hidden;
+            }
         }
 
         void RunAsync(Action action)

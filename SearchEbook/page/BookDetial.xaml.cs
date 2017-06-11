@@ -42,8 +42,12 @@ namespace SearchEbook.page
             backgroundDownload.ProgressChanged += BackgroundDownload_ProgressChanged;
             backgroundDownload.RunWorkerCompleted += BackgroundDownload_RunWorkerCompleted;
             initData();
+            DownloadButton.IsEnabled = false;
+            //if (dataGrid==null)
+            //{
+            //    DownloadButton.Dispatcher.InvokeAsync(() => DownloadButton.IsEnabled = false);
+            //}
         }
-
         /// <summary>
         /// 初始化详情界面，填充数据
         /// </summary>
@@ -77,50 +81,56 @@ namespace SearchEbook.page
 
                 // 获取书源
                 url = "http://api.zhuishushenqi.com/toc?view=summary&book=" + bookList[selectedIndex]._id + "";
-                string json = common.GetPage(url);
-                //jsonArry
-                var bookSource = JArray.Parse(json);
-                if (String.IsNullOrEmpty(json))
+                //Task<string> getValue = common.GetPage(url);
+                //var json = await getValue;
+                var getValue = Task.Run(() =>
                 {
-                    MessageBox.Show("网络错误");
-                    return;
-                }
-                Dictionary<string, string> sourceList = new Dictionary<string, string>();
-                List<Source> sourceDetialList = new List<Source>();
-                foreach (var sourceItem in bookSource)
-                {
-                    var info = sourceItem.ToObject<Source>();
-                    sourceDetialList.Add(info);
-                    // 书源的名字 书源内书的id
-                    sourceList.Add(info.name, info._id);
-                }
-                // 章节列表
-                url = "http://api.zhuishushenqi.com/toc/" + sourceList.First().Value + "?view=chapters";
-                json = common.GetPage(url);
-                chapter = (ChapterList)common.FromJson("ChapterList", json);
-               
-                if (String.IsNullOrEmpty(json))
-                {
-                    MessageBox.Show("网络错误");
-                    return;
-                }
-                if (chapter.name == "优质书源")
-                {
-                    MessageBox.Show("当前电子书不支持下载");
-                    return;
-                }
-                Application.Current.Properties["chapterList"] = chapter;
+                    string json = common.GetPage(url);
+                    //jsonArry
+                    var bookSource = JArray.Parse(json);
+                    if (String.IsNullOrEmpty(json))
+                    {
+                        MessageBox.Show("网络错误");
+                        return;
+                    }
+                    Dictionary<string, string> sourceList = new Dictionary<string, string>();
+                    List<Source> sourceDetialList = new List<Source>();
+                    foreach (var sourceItem in bookSource)
+                    {
+                        var info = sourceItem.ToObject<Source>();
+                        sourceDetialList.Add(info);
+                        // 书源的名字 书源内书的id
+                        sourceList.Add(info.name, info._id);
+                    }
+                    // 章节列表
+                    url = "http://api.zhuishushenqi.com/toc/" + sourceList.First().Value + "?view=chapters";
+                    json = common.GetPage(url);
+                    chapter = (ChapterList)common.FromJson("ChapterList", json);
 
-                ObservableCollection<ChapterList> list = new ObservableCollection<ChapterList>();
+                    if (String.IsNullOrEmpty(json))
+                    {
+                        MessageBox.Show("网络错误");
+                        return;
+                    }
+                    if (chapter.name == "优质书源")
+                    {
+                        MessageBox.Show("当前电子书不支持下载");
+                        return;
+                    }
+                    Application.Current.Properties["chapterList"] = chapter;
 
-                foreach (var item in chapter.chapters)
-                {
-                    chapter = new ChapterList();
-                    chapter.name = item.title;
-                    chapter.link = item.link;
-                    list.Add(chapter);
-                }
-                dataGrid.ItemsSource = list;
+                    ObservableCollection<ChapterList> list = new ObservableCollection<ChapterList>();
+
+                    foreach (var item in chapter.chapters)
+                    {
+                            chapter = new ChapterList();
+                            chapter.name = item.title;
+                            chapter.link = item.link;
+                            list.Add(chapter);
+                    }
+                    DownloadButton.Dispatcher.InvokeAsync(() => DownloadButton.IsEnabled = true);
+                    dataGrid.Dispatcher.InvokeAsync(() => dataGrid.ItemsSource = list);
+                });
             }catch(Exception ex)
             {
                 MessageBox.Show("网络错误");
@@ -238,8 +248,8 @@ namespace SearchEbook.page
                     var downloadSuccess = false;
                     var error = "";
                     // 每个源尝试下载3次
-                    //for (int j = 0; j < 3; j++)
-                    //{
+                    for (int j = 0; j < 3; j++)
+                    {
                         try
                         {
                             var charterInfo = getChapter(chapter.link);
@@ -253,7 +263,7 @@ namespace SearchEbook.page
                             error = ex.ToString();
                         }
                       
-                    //}
+                    }
                     if(!downloadSuccess)
                     {
                         var result = MessageBox.Show(error, "章节 " + chapter.title + " 下载失败", MessageBoxButton.OKCancel);
@@ -298,27 +308,40 @@ namespace SearchEbook.page
             }
         }
 
+        // 下载章节信息
         private ChapterDetial getChapter(string link)
         {
-            // 获取当前时间戳
-            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
-            int timestamp=(int)(DateTime.Now - startTime).TotalSeconds;
-            string url = "http://chapter2.zhuishushenqi.com/chapter/" + link + "?k=2124b73d7e2e1945&t=" + timestamp + "";
-            var json = common.GetPage(url);
-            if (String.IsNullOrEmpty(json))
+            try
             {
-                MessageBox.Show("网络错误");
+                ChapterInfo chapterCon = new ChapterInfo();
+                // 获取当前时间戳
+                System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+                int timestamp = (int)(DateTime.Now - startTime).TotalSeconds;
+                string url = "http://chapter2.zhuishushenqi.com/chapter/" + link + "?k=2124b73d7e2e1945&t=" + timestamp + "";
+              
+                    string json = common.GetPage(url);
+                    //var json = common.GetPage(url);
+                    if (String.IsNullOrEmpty(json))
+                    {
+                        MessageBox.Show("网络错误");
+                        return null;
+                    }
+                    chapterCon = (ChapterInfo)common.FromJson("ChapterInfo", json);
+                    if (chapterCon.ok)
+                    {
+                        return chapterCon.chapter;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.ToString());
                 return null;
             }
-            var chapterCon = (ChapterInfo)common.FromJson("ChapterInfo", json);
-            if(chapterCon.ok)
-            {
-                return chapterCon.chapter;
-            }
-            else
-            {
-                return null;
-            }
+           
         }
     }
 }
