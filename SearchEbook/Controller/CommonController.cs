@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using static SearchEbook.Model.AutoComplete;
 
 namespace SearchEbook.Controller
@@ -55,8 +56,41 @@ namespace SearchEbook.Controller
             //model = JsonConvert.DeserializeObject<model>(str);
             //return obj;
         }
+        public async Task<string> GetPage1(string requestUrl)
+        {
+            // 准备请求...
+            try
+            {
+                Stream instream = null;
+                StreamReader sr = null;
+                HttpWebResponse response = null;
+                HttpWebRequest request = null;
+                // 设置参数
+                request = WebRequest.Create(requestUrl) as HttpWebRequest;
+                CookieContainer cookieContainer = new CookieContainer();
+                request.CookieContainer = cookieContainer;
+                request.AllowAutoRedirect = true;
+                request.Method = "GET"; //请求方式GET或POST
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.Headers.Add("Authorization", "Basic YWRtaW46YWRtaW4=");
+                //发送请求并获取相应回应数据
+                response = request.GetResponse() as HttpWebResponse;
+                //直到request.GetResponse()程序才开始向目标网页发送Post请求
+                instream = response.GetResponseStream();
+                sr = new StreamReader(instream, Encoding.UTF8);
+                //返回结果网页（html）代码
+                var content = await Task.Run(()=> sr.ReadToEnd());
+               // var json = await content;
+                string err = string.Empty;
+                return content;
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
+        }
 
-        public string GetPage(string requestUrl)
+        public string  GetPage(string requestUrl)
         {
             // 准备请求...
             try

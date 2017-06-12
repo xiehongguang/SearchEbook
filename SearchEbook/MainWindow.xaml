@@ -19,16 +19,16 @@
          FontFamily="{DynamicResource MaterialDesignFont}">
 
     <Grid>
-        <materialDesign:Card Padding="8" Margin="8" Foreground="SkyBlue" VerticalAlignment="Top" >
+        <materialDesign:Card Padding="8" Margin="8,8,8,0" Foreground="SkyBlue" VerticalAlignment="Top" Height="84" >
             <TextBlock Foreground="BlueViolet" HorizontalAlignment="Center" FontSize="30"  Style="{DynamicResource MaterialDesignTitleTextBlock}" Height="42" Margin="28,0">Download E-book</TextBlock>
         </materialDesign:Card>
-        <Label Content="书名：" HorizontalAlignment="Left" Margin="74,143,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="bookName" Margin="129,129,445,195.8"  materialDesign:HintAssist.Hint="Floating Hint"  Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-        <Button x:Name="searchBook" IsDefault="True" Content="搜索" HorizontalAlignment="Left" Margin="371,136,0,0" VerticalAlignment="Top" Width="75" Click="searchBook_Click"/>
-        <Button x:Name="donate" Content="donate" Background="White" Foreground="Red" BorderThickness="0" HorizontalAlignment="Left" Margin="499,136,0,0" VerticalAlignment="Top" Click="donate_Click" />
-        <Image HorizontalAlignment="Left" Height="100" Margin="690,94,0,0" VerticalAlignment="Top" Width="100"/>
-        <Image HorizontalAlignment="Left" Height="100" Margin="588,95,0,0" VerticalAlignment="Top" Width="100"/>
-        <ListBox x:Name="bookListBox" Background="White " HorizontalAlignment="Left" Height="123" Margin="129,167,0,0" VerticalAlignment="Top" Width="215" Visibility="Hidden"/>
+        <Label Content="书名：" HorizontalAlignment="Left" Margin="108,150,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="bookName" Margin="163,124,411,200.8"  materialDesign:HintAssist.Hint="Floating Hint"  Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+        <Button x:Name="searchBook" IsDefault="True" Content="搜索" HorizontalAlignment="Left" Margin="424,136,0,0" VerticalAlignment="Top" Width="75" Click="searchBook_Click"/>
+        <Button x:Name="donate" Content="donate" Background="White" Foreground="Red" BorderThickness="0" HorizontalAlignment="Left" Margin="560,136,0,0" VerticalAlignment="Top" Click="donate_Click" />
+        <Image x:Name="zhifubao" HorizontalAlignment="Left" Source="image/zhifubao.jpg" Height="166" Margin="173,192,0,0" VerticalAlignment="Top" Width="208" Visibility="Hidden"/>
+        <Image x:Name="weixin" HorizontalAlignment="Left" Source="image/weixin.png" Height="166" Margin="424,192,0,0" VerticalAlignment="Top" Width="202" Visibility="Hidden"/>
+        <ListBox x:Name="bookListBox" Background="White " HorizontalAlignment="Left" Height="123" Margin="163,168,0,0" VerticalAlignment="Top" Width="218" Visibility="Hidden"/>
 
     </Grid>
 </Window>
