@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
-        Title="bookList" Height="724.039" Width="638.486"
+        Title="BookDetial" Height="724.039" Width="638.486"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"

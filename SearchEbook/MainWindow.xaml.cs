@@ -26,14 +26,14 @@ namespace SearchEbook
     {
         Dictionary<string, string> bookTitleAndId = new Dictionary<string, string>();
         CommonController common = new CommonController();
-        public  MainWindow()
+        public MainWindow()
         {
             //string file = Directory.GetCurrentDirectory() + "\\workspace\\tools\\kindlegen.exe";
             //MessageBox.Show(file);
             InitializeComponent();
             //Task t = new Task(() =>
             //  {
-            bookName.TextChanged +=  BookName_TextChanged;
+            bookName.TextChanged += BookName_TextChanged;
             //  }
             //);
             //t.Start();
@@ -85,10 +85,12 @@ namespace SearchEbook
         {
             this.zhifubao.Visibility = Visibility.Hidden;
             this.weixin.Visibility = Visibility.Hidden;
-            //  Task task = new Task(() =>
+            //  Task task = new Task(() =>   
             // {
             if (string.IsNullOrWhiteSpace(bookName.Text))
             {
+                bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Clear());
+                bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Visibility=Visibility.Hidden);
                 return;
             }
             // bookListBox.Items.Clear();
@@ -96,40 +98,40 @@ namespace SearchEbook
             bookListBox.Visibility = Visibility.Visible;
             bookTitleAndId.Clear();
             string name = bookName.Text.ToString().Trim();
-            string url =  string.Format("http://api.zhuishushenqi.com/book/auto-complete?query={0}", name);
-            var getValue=Task.Run(()=>
+            string url = string.Format("http://api.zhuishushenqi.com/book/auto-complete?query={0}", name);
+            var getValue = Task.Run(() =>
             {
-             string json=common.GetPage(url);
-           // var json =  getValue;
-            if (String.IsNullOrEmpty(json))
-            {
-                MessageBox.Show("网络错误");
-                return;
-            }
-            var bookComplete = new CompleteTitle();
-            bookComplete = (CompleteTitle)common.FromJson("CompleteTitle", json);
-            List<string> list = new List<string>();
-
-            var ok = bookComplete.ok;
-            if (ok)
-            {
-                if (bookComplete.keywords.Length <= 0)
+                string json = common.GetPage(url);
+                // var json =  getValue;
+                if (String.IsNullOrEmpty(json))
                 {
+                    MessageBox.Show("网络错误");
+                    return;
+                }
+                var bookComplete = new CompleteTitle();
+                bookComplete = (CompleteTitle)common.FromJson("CompleteTitle", json);
+                List<string> list = new List<string>();
+
+                var ok = bookComplete.ok;
+                if (ok)
+                {
+                    if (bookComplete.keywords.Length <= 0)
+                    {
                         bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Clear());
                         bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Add("没有此图书"));
-                       // bookListBox.Items.Add("没有此图书");
-                }
-                else
-                {
-                    bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Clear());
-                    foreach (var item in bookComplete.keywords)
+                        // bookListBox.Items.Add("没有此图书");
+                    }
+                    else
                     {
-                        list.Add(item);
-                        bookListBox.Dispatcher.InvokeAsync(()=> bookListBox.Items.Add(item));
+                        bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Clear());
+                        foreach (var item in bookComplete.keywords)
+                        {
+                            list.Add(item);
+                            bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Add(item));
+                        }
                     }
                 }
-            }
-              });
+            });
 
         }
         /// <summary>
@@ -148,59 +150,68 @@ namespace SearchEbook
             bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Clear());
             //bookListBox.Items.Clear();
             bookListBox.Visibility = Visibility.Visible;
-            string name = bookName.Text.ToString().Trim();
-            string url = " http://api.zhuishushenqi.com/book/fuzzy-search?query='" + name + "'&start=0&limit=5";
-            string json = common.GetPage(url);
-            var book = new SearchBook();
-            if (String.IsNullOrEmpty(json))
+            Task.Run(() =>
             {
-                MessageBox.Show("网络错误");
-                return;
-            }
-            book = (SearchBook)common.FromJson("SearchBook", json);
-            if (book.books == null)
-            {
-                bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Clear());
-                bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Add("没有此图书"));
-               // bookListBox.Items.Add("没有此图书");
-                return;
-            }
-            List<string> bookList = new List<string>();
-            foreach (var item in book.books)
-            {
-                bookList.Add(item.title);
-                bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Add(item.title));
-               // bookListBox.Items.Add(item.title);
-            }
-            if (bookList.Count() != 0)
-            {
-                bookListBox.Visibility = Visibility.Visible;
-                // 点击搜索，查询到的书籍列表
-                Application.Current.Properties["SearchBookList"] = book.books;
-                // 书籍列表
-                var newWindow = new page.Window1();
-                newWindow.Show();
-                //bookListBox.Items.Add( bookList);
-            }
-            else
-            {
-                bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Clear());
-                bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Add("没有此图书"));
-                // bookListBox.Items.Add("没有此图书");
-            }
+                string name = bookName.Dispatcher.Invoke(()=> bookName.Text.ToString().Trim());
+                string url = " http://api.zhuishushenqi.com/book/fuzzy-search?query='" + name + "'&start=0&limit=5";
+                string json = common.GetPage(url);
+                var book = new SearchBook();
+                if (String.IsNullOrEmpty(json))
+                {
+                    MessageBox.Show("网络错误");
+                    return;
+                }
+                book = (SearchBook)common.FromJson("SearchBook", json);
+                if (book.books == null)
+                {
+                    bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Clear());
+                    bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Add("没有此图书"));
+                    // bookListBox.Items.Add("没有此图书");
+                    return;
+                }
+                List<string> bookList = new List<string>();
+                foreach (var item in book.books)
+                {
+                    bookList.Add(item.title);
+                    bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Add(item.title));
+                    // bookListBox.Items.Add(item.title);
+                }
+                if (bookList.Count() != 0)
+                {
+                    
+                    bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Visibility = Visibility.Visible);
+                    // 点击搜索，查询到的书籍列表
+                    Application.Current.Properties["SearchBookList"] = book.books;
+                    // 书籍列表
+                    App.Current.Dispatcher.Invoke((Action)(() =>
+                    {
+                        var newWindow = new page.Window1();
+                        newWindow.Show();
+                    }));
+                    //bookListBox.Items.Add( bookList);
+                }
+                else
+                {
+                    bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Clear());
+                    bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Items.Add("没有此图书"));
+                    // bookListBox.Items.Add("没有此图书");
+                }
+            });
+          
         }
 
         private void donate_Click(object sender, RoutedEventArgs e)
         {
-            if(this.zhifubao.Visibility == Visibility.Visible)
+            if (this.zhifubao.Visibility == Visibility.Visible)
             {
 
                 this.zhifubao.Visibility = Visibility.Hidden;
                 this.weixin.Visibility = Visibility.Hidden;
+                bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Visibility = Visibility.Visible);
             }
             else
             {
-
+                bookListBox.Dispatcher.InvokeAsync(() => bookListBox.Visibility = Visibility.Hidden);
                 this.zhifubao.Visibility = Visibility.Visible;
                 this.weixin.Visibility = Visibility.Visible;
             }

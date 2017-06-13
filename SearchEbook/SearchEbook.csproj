@@ -170,13 +170,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="image\app.ico" />
     <Resource Include="image\searchBook.ico" />
     <Resource Include="image\book.png" />
-    <Resource Include="bitbug_favicon.ico" />
     <Resource Include="image\book.ico" />
-    <Resource Include="image\zhifubao.jpg" />
     <Resource Include="image\weixin.png" />
+    <Resource Include="image\zhifubao.jpg" />
     <Content Include="workspace\tools\kindlegen.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

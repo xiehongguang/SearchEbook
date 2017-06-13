@@ -115,6 +115,8 @@ namespace SearchEbook.page
                     if (chapter.name == "优质书源")
                     {
                         MessageBox.Show("当前电子书不支持下载");
+                        this.Dispatcher.InvokeAsync(() => this.Close());
+                        
                         return;
                     }
                     Application.Current.Properties["chapterList"] = chapter;
@@ -123,20 +125,21 @@ namespace SearchEbook.page
 
                     foreach (var item in chapter.chapters)
                     {
-                            chapter = new ChapterList();
-                            chapter.name = item.title;
-                            chapter.link = item.link;
-                            list.Add(chapter);
+                        chapter = new ChapterList();
+                        chapter.name = item.title;
+                        chapter.link = item.link;
+                        list.Add(chapter);
                     }
                     DownloadButton.Dispatcher.InvokeAsync(() => DownloadButton.IsEnabled = true);
                     dataGrid.Dispatcher.InvokeAsync(() => dataGrid.ItemsSource = list);
                 });
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show("网络错误");
                 return;
             }
-            
+
 
         }
 
@@ -166,7 +169,7 @@ namespace SearchEbook.page
             file.RestoreDirectory = true;
             MessageBox.Show(file.FileName);
             // 打开文件夹
-            if(file.ShowDialog()==true)
+            if (file.ShowDialog() == true)
             {
                 StartDownload(file.FileName);
             }
@@ -186,7 +189,7 @@ namespace SearchEbook.page
         // 停止下载
         private void StopDownload()
         {
-            if (backgroundDownload.IsBusy )
+            if (backgroundDownload.IsBusy)
             {
                 // 取消任务
                 backgroundDownload.CancelAsync();
@@ -231,19 +234,19 @@ namespace SearchEbook.page
             // 章节具体信息
             List<ChapterDetial> chaperInfoList = new List<ChapterDetial>();
 
-            for(int i = 0; i < chapterList.Length;i++)
+            for (int i = 0; i < chapterList.Length; i++)
             {
-                if(backgroundDownload.CancellationPending)
+                if (backgroundDownload.CancellationPending)
                 {
                     return;
                 }
                 var chapter = chapterList[i];
-                double progressBarRat=(double)(i + 1) / (double)chapterList.Length;
+                double progressBarRat = (double)(i + 1) / (double)chapterList.Length;
                 string info = string.Format("正在下载:{0} {1}/{2} {3:F2}%", chapter.title, i + 1, chapterList.Length,
                   progressBarRat * 100);
                 backgroundDownload.ReportProgress(i, info);
-                
-                while(true)
+
+                while (true)
                 {
                     var downloadSuccess = false;
                     var error = "";
@@ -258,20 +261,21 @@ namespace SearchEbook.page
                                 chaperInfoList.Add(charterInfo);
                                 downloadSuccess = true;
                             }
-                        }catch (Exception ex)
+                        }
+                        catch (Exception ex)
                         {
                             error = ex.ToString();
                         }
-                      
+
                     }
-                    if(!downloadSuccess)
+                    if (!downloadSuccess)
                     {
-                        var result = MessageBox.Show(error, "章节 " + chapter.title + " 下载失败", MessageBoxButton.OKCancel);
-                        if (result == MessageBoxResult.OK)
+                        var result = MessageBox.Show("取消下载？", "章节 " + chapter.title + " 下载失败", MessageBoxButton.YesNo);
+                        if (result == MessageBoxResult.Yes)
                         {
                             return;
                         }
-                        else if (result == MessageBoxResult.Cancel)
+                        else
                         {
                             var emptyChaper = new ChapterDetial();
                             emptyChaper.title = chapter.title;
@@ -306,6 +310,7 @@ namespace SearchEbook.page
             {
                 Kindlegen.book2Mobi(kindleBook, filePath);
             }
+            //this.Dispatcher.InvokeAsync(() => this.Close());
         }
 
         // 下载章节信息
@@ -318,30 +323,32 @@ namespace SearchEbook.page
                 System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
                 int timestamp = (int)(DateTime.Now - startTime).TotalSeconds;
                 string url = "http://chapter2.zhuishushenqi.com/chapter/" + link + "?k=2124b73d7e2e1945&t=" + timestamp + "";
-              
-                    string json = common.GetPage(url);
-                    //var json = common.GetPage(url);
-                    if (String.IsNullOrEmpty(json))
-                    {
-                        MessageBox.Show("网络错误");
-                        return null;
-                    }
-                    chapterCon = (ChapterInfo)common.FromJson("ChapterInfo", json);
-                    if (chapterCon.ok)
-                    {
-                        return chapterCon.chapter;
-                    }
-                    else
+
+                string json = common.GetPage(url);
+                //var json = common.GetPage(url);
+                if (String.IsNullOrEmpty(json))
+                {
+                    if (MessageBox.Show("本章节下载失败，取消下载小说？", "错误", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                     {
                         return null;
                     }
+                }
+                chapterCon = (ChapterInfo)common.FromJson("ChapterInfo", json);
+                if (chapterCon.ok)
+                {
+                    return chapterCon.chapter;
+                }
+                else
+                {
+                    return null;
+                }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                MessageBox.Show(e.ToString());
+               // MessageBox.Show(e.ToString());
                 return null;
             }
-           
+
         }
     }
 }

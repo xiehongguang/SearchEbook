@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="398.659" Width="798.171"
+        Title="SearchKindle" Height="398.659" Width="798.171"
          TextElement.Foreground="{DynamicResource MaterialDesignBody}"
          TextElement.FontWeight="Regular"
          TextElement.FontSize="13"
@@ -22,13 +22,13 @@
         <materialDesign:Card Padding="8" Margin="8,8,8,0" Foreground="SkyBlue" VerticalAlignment="Top" Height="84" >
             <TextBlock Foreground="BlueViolet" HorizontalAlignment="Center" FontSize="30"  Style="{DynamicResource MaterialDesignTitleTextBlock}" Height="42" Margin="28,0">Download E-book</TextBlock>
         </materialDesign:Card>
-        <Label Content="书名：" HorizontalAlignment="Left" Margin="74,143,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="bookName" Margin="129,129,445,195.8"  materialDesign:HintAssist.Hint="Floating Hint"  Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-        <Button x:Name="searchBook" IsDefault="True" Content="搜索" HorizontalAlignment="Left" Margin="371,136,0,0" VerticalAlignment="Top" Width="75" Click="searchBook_Click"/>
-        <Button x:Name="donate" Content="donate" Background="White" Foreground="Red" BorderThickness="0" HorizontalAlignment="Left" Margin="499,136,0,0" VerticalAlignment="Top" Click="donate_Click" />
-        <Image HorizontalAlignment="Left" Height="100" Margin="690,94,0,0" VerticalAlignment="Top" Width="100"/>
-        <Image HorizontalAlignment="Left" Height="100" Margin="588,95,0,0" VerticalAlignment="Top" Width="100"/>
-        <ListBox x:Name="bookListBox" Background="White " HorizontalAlignment="Left" Height="123" Margin="129,167,0,0" VerticalAlignment="Top" Width="215" Visibility="Hidden"/>
+        <Label Content="书名：" HorizontalAlignment="Left" Margin="108,150,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="bookName" Margin="163,136,411,188.8"  materialDesign:HintAssist.Hint="Floating Hint"  Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+        <Button x:Name="searchBook" IsDefault="True" Content="搜索" HorizontalAlignment="Left" Margin="424,144,0,0" VerticalAlignment="Top" Width="75" Click="searchBook_Click"/>
+        <Button x:Name="donate" Content="donate" Background="White" Foreground="Red" BorderThickness="0" HorizontalAlignment="Left" Margin="549,144,0,0" VerticalAlignment="Top" Click="donate_Click" />
+        <Image x:Name="zhifubao" HorizontalAlignment="Left" Source="image/zhifubao.jpg" Height="166" Margin="173,192,0,0" VerticalAlignment="Top" Width="208" Visibility="Hidden"/>
+        <Image x:Name="weixin" HorizontalAlignment="Left" Source="image/weixin.png" Height="166" Margin="424,192,0,0" VerticalAlignment="Top" Width="202" Visibility="Hidden"/>
+        <ListBox x:Name="bookListBox" Background="White " HorizontalAlignment="Left" Height="123" Margin="163,172,0,0" VerticalAlignment="Top" Width="210" Visibility="Hidden"/>
 
     </Grid>
 </Window>

@@ -29,22 +29,27 @@ namespace SearchEbook.page
             InitializeComponent();
             InitDateGride();
         }
+        
         public void InitDateGride()
         {
-            var bookList=(Book[])Application.Current.Properties["SearchBookList"];
-            foreach (var item in bookList)
+            var bookList = (Book[])Application.Current.Properties["SearchBookList"];
+            Task.Run(() =>
             {
-                var book = new Book();
-                book.author = item.author;
-                book.title = item.title;
-                book.cat = item.cat;
-                book.site = item.site;
-                book.lastChapter = item.lastChapter;
-                book.wordCount = item.wordCount;
-                book.shortIntro = item.shortIntro;
-                list.Add(book);
-            }
-            dataGrid.ItemsSource = list;
+                foreach (var item in bookList)
+                {
+                    var book = new Book();
+                    book.author = item.author;
+                    book.title = item.title;
+                    book.cat = item.cat;
+                    book.site = item.site;
+                    book.lastChapter = item.lastChapter;
+                    book.wordCount = item.wordCount;
+                    book.shortIntro = item.shortIntro;
+                    list.Add(book);
+                }
+                dataGrid.Dispatcher.InvokeAsync(()=> dataGrid.ItemsSource = list);
+            });
+          
         }
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

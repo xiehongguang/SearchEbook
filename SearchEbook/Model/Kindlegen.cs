@@ -74,6 +74,7 @@ namespace SearchEbook.Model
             createNaxToc(kindleBook);
             createOpf(kindleBook);
             gen(filePath);
+            MessageBox.Show("下载完成");
         }
         // 加载模板
         static void loadTemplates()
