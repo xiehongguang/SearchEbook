@@ -1,6 +1,3 @@
-﻿API资源来自 https://github.com/qq573011406
-
-
 追书神器API:
 
 1.搜索图书
