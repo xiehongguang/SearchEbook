@@ -1,2 +1,2 @@
 # SearchEbook
-> 使用WPF、Material Design实现下载Kindle 电子书资源
+ 使用手机端抓包工具，获取某app的rest api，通过WPF、Material Design技术实现Kindle电子书资源下载
